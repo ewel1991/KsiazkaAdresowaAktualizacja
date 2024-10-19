@@ -268,11 +268,11 @@ int main()
             }
             else if (wybor == '2')
             {
-            idZalogowanegoUzytkownika = logowanie (uzytkownicy, iloscUzytkownikow);
+                idZalogowanegoUzytkownika = logowanie (uzytkownicy, iloscUzytkownikow);
             }
             else if (wybor == '9')
             {
-
+             exit(0);
             }
         }
         else
