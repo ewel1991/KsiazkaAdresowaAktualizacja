@@ -232,6 +232,81 @@ int logowanie (vector <Uzytkownik> &uzytkownicy, int iloscUzytkownikow)
     return 0;
 }
 
+int wczytajAdresatowZPliku (vector <Adresat> &adresaci, int idZalogowanegoUzytkownika)
+{
+    Adresat adresat;
+    string linia = "", wyraz = "";
+    int nrKreski = 0, ostatniNumerId = 0;
+
+    fstream plik;
+    plik.open("KsiazkaAdresowa.txt", ios::in);
+
+    if (plik.good() == false)
+    {
+        return 0;
+    }
+    while (getline(plik, linia))
+    {
+
+        for (int i = 0; i < linia.length(); i++)
+        {
+
+            if (linia[i] != '|')
+            {
+                wyraz += linia [i];
+            }
+
+            else
+            {
+                nrKreski ++;
+
+
+                switch (nrKreski)
+                {
+                case 1:
+                    adresat.id = stoi(wyraz);
+                    wyraz = "";
+                    break;
+                case 2:
+                    adresat.idUzytkownika = stoi(wyraz);
+                    wyraz = "";
+                    break;
+                case 3:
+                    adresat.imie = wyraz;
+                    wyraz = "";
+                    break;
+                case 4:
+                    adresat.nazwisko = wyraz;
+                    wyraz = "";
+                    break;
+                case 5:
+                    adresat.numerTelefonu = wyraz;
+                    wyraz = "";
+                    break;
+                case 6:
+                    adresat.email= wyraz;
+                    wyraz = "";
+                    break;
+                case 7:
+                    adresat.adres = wyraz;
+                    wyraz = "";
+                    if (adresat.idUzytkownika == idZalogowanegoUzytkownika)
+                    {
+                        adresaci.push_back(adresat);
+                    }
+                    nrKreski = 0;
+                    break;
+                }
+            }
+        }
+    }
+    plik.close();
+
+    return ostatniNumerId = adresat.id;
+}
+
+
+
 
 using namespace std;
 
