@@ -264,7 +264,7 @@ int main()
 
             if (wybor == '1')
             {
-
+                iloscUzytkownikow = rejestracja(uzytkownicy, iloscUzytkownikow);
             }
             else if (wybor == '2')
             {
@@ -298,7 +298,7 @@ int main()
             cin >> wybor;
             if (wybor == '1')
             {
-                iloscUzytkownikow = rejestracja(uzytkownicy, iloscUzytkownikow);
+
             }
             else if (wybor == '2')
             {
