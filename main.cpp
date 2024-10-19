@@ -371,6 +371,7 @@ int dodajAdresata (vector <Adresat> &adresaci, int numerKolejnegoId, int idZalog
     return numerKolejnegoId;
 }
 
+
 void wyszukajPoImieniu(vector <Adresat> &adresaci)
 {
     Adresat adresat;
@@ -478,136 +479,228 @@ void wyswietlWszystkichAdresatow(vector <Adresat> &adresaci)
             cout << "Plik nie zostal jeszcze stworzony" << endl << endl;
         }
     }
-    system("pause");
-}
 
-
-void zmianaHasla( vector <Uzytkownik> &uzytkownicy, int idZalogowanegoUzytkownika)
-{
-    Uzytkownik uzytkownik;
-    string haslo = "";
-
-    for (vector <Uzytkownik> :: iterator itr = uzytkownicy.begin(); itr!= uzytkownicy.end(); itr++)
+    void usunAdresataZPliku (int idDoUsuniecia)
     {
-        if (itr -> id == idZalogowanegoUzytkownika)
 
+        string linia = "", wyraz = "";
+        int  nrKreski = 0, aktualneId;
+
+
+        ifstream plik ("KsiazkaAdresowa.txt");
+        ofstream plikTymczasowy ("AdresaciTymczasowi.txt");
+
+        if (plik.good() == true && plikTymczasowy.good() == true)
         {
 
+            while (getline(plik, linia))
+            {
+                for (int i = 0; i < linia.length(); i++)
+                {
+                    if (linia[i] != '|')
+                    {
+                        wyraz += linia [i];
+                    }
+                    else
+                    {
+                        nrKreski ++;
 
-            cout << "Podaj nowe haslo: ";
-            itr -> haslo = wczytajLinie();
-            cout << "Haslo zostalo zmienione" << endl;
+                        switch (nrKreski)
+                        {
+                        case 1:
+                            aktualneId = stoi(wyraz);
+                            break;
 
+                        case 7:
+                            if (aktualneId != idDoUsuniecia)
+                            {
+                                plikTymczasowy << linia << endl;
+                            }
+                            wyraz = "";
+                            nrKreski = 0;
+                            break;
+                        }
+                    }
+                }
+            }
         }
+
+        plik.close();
+        plikTymczasowy.close();
+
+        remove("KsiazkaAdresowa.txt");
+        rename("AdresaciTymczasowi.txt", "KsiazkaAdresowa.txt");
+
     }
-    nadpiszPlikUzytkownik(uzytkownicy);
-}
 
 
-int main()
-{
-    vector <Adresat> adresaci;
-    vector <Uzytkownik> uzytkownicy;
-    Adresat adresat;
-    Uzytkownik uzytkownik;
-    char wybor;
-    int numerKolejnegoId = 0, iloscUzytkownikow = 0, idDoZmiany = 0, idZalogowanegoUzytkownika = 0;
-    string liniaDoZmiany ="";
 
-    iloscUzytkownikow = wczytajOsobyZPlikuUzytkownicy(uzytkownicy);
 
-    while(1)
+    void usunAdresata (vector <Adresat> &adresaci)
     {
-        if(idZalogowanegoUzytkownika == 0)
+        Adresat adresat;
+        char idDoUsuniecia, potwierdzenieWyboru;
+
+
+        cout << "Podaj id osoby, ktora chcesz usunac: ";
+        idDoUsuniecia = wczytajLiczbeCalkowita();
+        cout << endl;
+
+        cout << "Potwierdz usuniecie danego adresata, wciskajac klawisz 't': ";
+        potwierdzenieWyboru = wczytajZnak();
+        cout << endl;
+
+        if (potwierdzenieWyboru == 't')
         {
-            system ("cls");
-            cout << " >>> MENU GLOWNE <<<" << endl;
-            cout << "---------------------" << endl;
-            cout << "1. Rejestracja" << endl;
-            cout << "2. Logowanie" << endl;
-            cout << "9. Zakoncz program" << endl;
-            cout << "---------------------" << endl;
-            cout << "Twoj wybor: ";
+            for (vector <Adresat> :: iterator itr = adresaci.begin(); itr!= adresaci.end(); itr++)
+            {
+                if (itr -> id == idDoUsuniecia)
+                {
+                    adresaci.erase(itr);
+                    if (itr == adresaci.end())
+                    {
+                        break;
+                    }
+                }
+            }
 
-            wybor = wczytajZnak();
-
-            if (wybor == '1')
-            {
-                iloscUzytkownikow = rejestracja(uzytkownicy, iloscUzytkownikow);
-            }
-            else if (wybor == '2')
-            {
-                idZalogowanegoUzytkownika = logowanie (uzytkownicy, iloscUzytkownikow);
-            }
-            else if (wybor == '9')
-            {
-                exit(0);
-            }
         }
         else
         {
-            system ("cls");
-            cout << ">>> KSIAZKA ADRESOWA <<<" << endl << endl;
-            cout << "---------------------" << endl;
-            cout << "1. Dodaj adresata" << endl;
-            cout << "2. Wyszukaj po imieniu" << endl;
-            cout << "3. Wyszukaj po nazwisku" << endl;
-            cout << "4. Wyswietl wszystkich adresatow" << endl;
-            cout << "5. Usun adresata" << endl;
-            cout << "6. Edytuj adresata" << endl;
-            cout << "---------------------" << endl;
-            cout << "7. Zmien haslo" << endl;
-            cout << "8. Wyloguj sie" << endl;
-            cout << "---------------------" << endl;
-            cout << "Twoj wybor: ";
-
-            numerKolejnegoId = wczytajAdresatowZPliku(adresaci, idZalogowanegoUzytkownika);
-
-
-            cin >> wybor;
-            if (wybor == '1')
-            {
-                numerKolejnegoId= dodajAdresata(adresaci, numerKolejnegoId, idZalogowanegoUzytkownika);
-                adresaci.clear();
-            }
-            else if (wybor == '2')
-            {
-                wyszukajPoImieniu(adresaci);
-                adresaci.clear();
-            }
-            else if (wybor == '3')
-            {
-                wyszukajPoNazwisku(adresaci);
-                adresaci.clear();
-            }
-            else if (wybor == '4')
-            {
-                wyswietlWszystkichAdresatow(adresaci);
-                adresaci.clear();
-            }
-            else if (wybor == '5')
-            {
-
-            }
-            else if (wybor == '6')
-            {
-
-            }
-            else if (wybor == '7')
-            {
-                zmianaHasla(uzytkownicy, idZalogowanegoUzytkownika);
-            }
-            else if (wybor == '8')
-            {
-                adresaci.clear();
-                idZalogowanegoUzytkownika = 0;
-            }
+            cout << "Nieprawidlowy klawisz. Adresat nie zostal usuniety" << endl;
         }
 
+        usunAdresataZPliku (idDoUsuniecia);
+        system("pause");
+    }
+
+    void zmianaHasla( vector <Uzytkownik> &uzytkownicy, int idZalogowanegoUzytkownika)
+    {
+        Uzytkownik uzytkownik;
+        string haslo = "";
+
+        for (vector <Uzytkownik> :: iterator itr = uzytkownicy.begin(); itr!= uzytkownicy.end(); itr++)
+        {
+            if (itr -> id == idZalogowanegoUzytkownika)
+
+            {
+
+
+                cout << "Podaj nowe haslo: ";
+                itr -> haslo = wczytajLinie();
+                cout << "Haslo zostalo zmienione" << endl;
+
+            }
+        }
+        nadpiszPlikUzytkownik(uzytkownicy);
     }
 
 
-}
+    int main()
+    {
+        vector <Adresat> adresaci;
+        vector <Uzytkownik> uzytkownicy;
+        Adresat adresat;
+        Uzytkownik uzytkownik;
+        char wybor;
+        int numerKolejnegoId = 0, iloscUzytkownikow = 0, idDoZmiany = 0, idZalogowanegoUzytkownika = 0;
+        string liniaDoZmiany ="";
 
-return 0;
+        iloscUzytkownikow = wczytajOsobyZPlikuUzytkownicy(uzytkownicy);
+
+        while(1)
+        {
+            if(idZalogowanegoUzytkownika == 0)
+            {
+                system ("cls");
+                cout << " >>> MENU GLOWNE <<<" << endl;
+                cout << "---------------------" << endl;
+                cout << "1. Rejestracja" << endl;
+                cout << "2. Logowanie" << endl;
+                cout << "9. Zakoncz program" << endl;
+                cout << "---------------------" << endl;
+                cout << "Twoj wybor: ";
+
+                wybor = wczytajZnak();
+
+                if (wybor == '1')
+                {
+                    iloscUzytkownikow = rejestracja(uzytkownicy, iloscUzytkownikow);
+                }
+                else if (wybor == '2')
+                {
+                    idZalogowanegoUzytkownika = logowanie (uzytkownicy, iloscUzytkownikow);
+                }
+                else if (wybor == '9')
+                {
+                    exit(0);
+                }
+            }
+            else
+            {
+                system ("cls");
+                cout << ">>> KSIAZKA ADRESOWA <<<" << endl << endl;
+                cout << "---------------------" << endl;
+                cout << "1. Dodaj adresata" << endl;
+                cout << "2. Wyszukaj po imieniu" << endl;
+                cout << "3. Wyszukaj po nazwisku" << endl;
+                cout << "4. Wyswietl wszystkich adresatow" << endl;
+                cout << "5. Usun adresata" << endl;
+                cout << "6. Edytuj adresata" << endl;
+                cout << "---------------------" << endl;
+                cout << "7. Zmien haslo" << endl;
+                cout << "8. Wyloguj sie" << endl;
+                cout << "---------------------" << endl;
+                cout << "Twoj wybor: ";
+
+                numerKolejnegoId = wczytajAdresatowZPliku(adresaci, idZalogowanegoUzytkownika);
+
+
+                cin >> wybor;
+                if (wybor == '1')
+                {
+                    numerKolejnegoId= dodajAdresata(adresaci, numerKolejnegoId, idZalogowanegoUzytkownika);
+                    adresaci.clear();
+                }
+                else if (wybor == '2')
+                {
+                    wyszukajPoImieniu(adresaci);
+                    adresaci.clear();
+                }
+                else if (wybor == '3')
+                {
+                    wyszukajPoNazwisku(adresaci);
+                    adresaci.clear();
+                }
+                else if (wybor == '4')
+                {
+                    wyswietlWszystkichAdresatow(adresaci);
+                    adresaci.clear();
+                }
+                else if (wybor == '5')
+                {
+                    usunAdresata (adresaci);
+                    adresaci.clear();
+                }
+                else if (wybor == '6')
+                {
+
+                }
+                else if (wybor == '7')
+                {
+                    zmianaHasla(uzytkownicy, idZalogowanegoUzytkownika);
+                }
+                else if (wybor == '8')
+                {
+                    adresaci.clear();
+                    idZalogowanegoUzytkownika = 0;
+                }
+            }
+
+        }
+
+
+    }
+
+    return 0;
 }
