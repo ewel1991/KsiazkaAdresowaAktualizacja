@@ -396,12 +396,6 @@ string zapiszLinieDoZmiany (vector <Adresat> &adresaci, int idZalogowanegoUzytko
 }
 
 
-
-
-
-
-
-
 void zmienAdresataWPliku (int idDoZmiany, string liniaDoZmiany)
 {
 
@@ -743,6 +737,33 @@ void usunAdresata (vector <Adresat> &adresaci)
     system("pause");
 }
 
+void nadpiszPlikUzytkownik (vector <Uzytkownik> &uzytkownicy)
+{
+    Uzytkownik uzytkownik;
+    fstream plik2;
+    plik2.open("temp.txt", ios::out | ios::app);
+
+    if (plik2.good() == true)
+    {
+        for (Uzytkownik uzytkownik: uzytkownicy)
+        {
+            plik2 << uzytkownik.id << "|";
+            plik2 << uzytkownik.nazwa << "|";
+            plik2 << uzytkownik.haslo << "|" << endl;
+        }
+    }
+    else
+    {
+        cout << "Nie udalo sie otworzyc pliku i zapisac do niego danych." << endl;
+        system("pause");
+    }
+    plik2.close();
+    remove("Uzytkownicy.txt");
+    rename("temp.txt", "Uzytkownicy.txt");
+
+}
+
+
 void zmianaHasla( vector <Uzytkownik> &uzytkownicy, int idZalogowanegoUzytkownika)
 {
     Uzytkownik uzytkownik;
@@ -866,7 +887,7 @@ int main()
             }
         }
 
-    }
+
 
 
 }
