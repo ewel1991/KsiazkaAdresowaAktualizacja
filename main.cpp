@@ -415,6 +415,52 @@ void wyszukajPoImieniu(vector <Adresat> &adresaci)
     system("pause");
 }
 
+void wyszukajPoNazwisku(vector <Adresat> &adresaci)
+{
+    Adresat adresat;
+    string poszukiwaneNazwisko = "";
+    int liczbaTakichSamychNazwisk = 0;
+
+    cout << "Podaj nazwisko, ktore chcesz wyszukac: ";
+
+    poszukiwaneNazwisko = wczytajLinie();
+
+    cout << endl;
+
+    if (adresaci.size()== 0)
+    {
+        cout << "Plik nie zostal jeszcze stworzony" << endl << endl;
+    }
+    else
+    {
+        for (Adresat adresat : adresaci)
+        {
+            if (adresat.nazwisko == poszukiwaneNazwisko)
+            {
+                cout << setw(25)<< left <<"Id: "             << adresat.id<< endl;
+                cout << setw(25)<< left <<"Imie: "           << adresat.imie<< endl;
+                cout << setw(25)<< left <<"Nazwisko: "       << adresat.nazwisko << endl;
+                cout << setw(25)<< left <<"Numer telefonu: " << adresat.numerTelefonu<< endl;
+                cout << setw(25)<< left <<"Email:"           << adresat.email<< endl;
+                cout << setw(25)<< left <<"Adres:"           << adresat.adres<< endl << endl;
+                liczbaTakichSamychNazwisk++;
+            }
+
+
+        }
+        if (liczbaTakichSamychNazwisk == 0)
+        {
+            cout << "Na liscie nie ma osoba o takim imieniu" << endl << endl;
+        }
+
+
+    }
+
+    system("pause");
+}
+
+
+
 int main()
 {
     vector <Adresat> adresaci;
@@ -488,7 +534,8 @@ int main()
             }
             else if (wybor == '3')
             {
-
+            wyszukajPoNazwisku(adresaci);
+            adresaci.clear();
             }
             else if (wybor == '4')
             {
