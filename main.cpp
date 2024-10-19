@@ -69,6 +69,14 @@ int wczytajLiczbeCalkowita()
     return liczba;
 }
 
+string zamienIntNaString (unsigned long long int liczba)
+{
+    ostringstream ss;
+    ss << liczba;
+    string str = ss.str();
+    return str;
+}
+
 
 
 
