@@ -19,7 +19,26 @@ struct Adresat
     string imie = "", nazwisko = "", numerTelefonu ="", email ="", adres ="";
 };
 
+char wczytajZnak()
+{
+    string wejscie = "";
+    char znak = {0};
 
+    cin.sync();
+    while (true)
+    {
+
+        getline(cin, wejscie);
+
+        if (wejscie.length() == 1)
+        {
+            znak = wejscie[0];
+            break;
+        }
+        cout << "To nie jest pojedynczy znak. Wpisz ponownie." << endl;
+    }
+    return znak;
+}
 
 
 using namespace std;
@@ -33,6 +52,8 @@ int main()
     char wybor;
     int numerKolejnegoId = 0, iloscUzytkownikow = 0, idDoZmiany = 0, idZalogowanegoUzytkownika = 0;
     string liniaDoZmiany ="";
+
+
 
 
     return 0;
