@@ -132,6 +132,68 @@ int wczytajOsobyZPlikuUzytkownicy (vector <Uzytkownik> &uzytkownicy)
 }
 
 
+void dodajUzytkownikaDoPliku (Uzytkownik uzytkownik)
+{
+    fstream plik;
+    plik.open("Uzytkownicy.txt", ios::out | ios::app);
+
+    if (plik.good() == true)
+    {
+        plik << uzytkownik.id << "|";
+        plik << uzytkownik.nazwa << "|";
+        plik << uzytkownik.haslo << "|" << endl;
+    }
+    else
+    {
+        cout << "Nie udalo sie otworzyc pliku i zapisac do niego danych." << endl;
+        system("pause");
+    }
+    plik.close();
+}
+
+
+int rejestracja (vector <Uzytkownik> &uzytkownicy, int iloscUzytkownikow)
+{
+    string nazwa;
+    Uzytkownik uzytkownik;
+    cout <<"Podaj nazwe uzytkownika: ";
+    nazwa = wczytajLinie();
+
+    int i = 0;
+    while ( i < iloscUzytkownikow )
+    {
+        for (Uzytkownik uzytkownik: uzytkownicy)
+        {
+            if (uzytkownik.nazwa == nazwa)
+            {
+                cout << "Taki uzytkownik istnieje. Wpisz inna nazwe uzytkownika: ";
+                nazwa = wczytajLinie();
+                i = 0;
+            }
+            else
+            {
+                i++;
+            }
+        }
+
+    }
+    uzytkownik.nazwa = nazwa;
+
+    cout << "Podaj haslo:";
+    uzytkownik.haslo = wczytajLinie();
+    uzytkownik.id = iloscUzytkownikow+1;
+    uzytkownicy.push_back(uzytkownik);
+    cout << endl;
+    cout << "Konto zalozone" << endl << endl;
+    system("pause");
+
+    dodajUzytkownikaDoPliku(uzytkownik);
+    return iloscUzytkownikow+1;
+}
+
+
+
+
 using namespace std;
 
 int main()
@@ -197,7 +259,7 @@ int main()
             cin >> wybor;
             if (wybor == '1')
             {
-
+                iloscUzytkownikow = rejestracja(uzytkownicy, iloscUzytkownikow);
             }
             else if (wybor == '2')
             {
