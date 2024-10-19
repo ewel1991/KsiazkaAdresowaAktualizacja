@@ -146,6 +146,93 @@ int main()
 
     iloscUzytkownikow = wczytajOsobyZPlikuUzytkownicy(uzytkownicy);
 
+ while(1)
+    {
+        if(idZalogowanegoUzytkownika == 0)
+        {
+            system ("cls");
+            cout << " >>> MENU GLOWNE <<<" << endl;
+            cout << "---------------------" << endl;
+            cout << "1. Rejestracja" << endl;
+            cout << "2. Logowanie" << endl;
+            cout << "9. Zakoncz program" << endl;
+            cout << "---------------------" << endl;
+            cout << "Twoj wybor: ";
+
+            wybor = wczytajZnak();
+
+            if (wybor == '1')
+            {
+
+            }
+            else if (wybor == '2')
+            {
+
+            }
+            else if (wybor == '9')
+            {
+
+            }
+        }
+        else
+        {
+            system ("cls");
+            cout << ">>> KSIAZKA ADRESOWA <<<" << endl << endl;
+            cout << "---------------------" << endl;
+            cout << "1. Dodaj adresata" << endl;
+            cout << "2. Wyszukaj po imieniu" << endl;
+            cout << "3. Wyszukaj po nazwisku" << endl;
+            cout << "4. Wyswietl wszystkich adresatow" << endl;
+            cout << "5. Usun adresata" << endl;
+            cout << "6. Edytuj adresata" << endl;
+            cout << "---------------------" << endl;
+            cout << "7. Zmien haslo" << endl;
+            cout << "8. Wyloguj sie" << endl;
+            cout << "---------------------" << endl;
+            cout << "Twoj wybor: ";
+
+            numerKolejnegoId = wczytajAdresatowZPliku(adresaci, idZalogowanegoUzytkownika);
+
+
+            cin >> wybor;
+            if (wybor == '1')
+            {
+
+            }
+            else if (wybor == '2')
+            {
+
+            }
+            else if (wybor == '3')
+            {
+
+            }
+            else if (wybor == '4')
+            {
+
+            }
+            else if (wybor == '5')
+            {
+
+            }
+            else if (wybor == '6')
+            {
+
+            }
+            else if (wybor == '7')
+            {
+
+            }
+            else if (wybor == '8')
+            {
+
+            }
+        }
+
+    }
+
+
+}
 
     return 0;
 }
