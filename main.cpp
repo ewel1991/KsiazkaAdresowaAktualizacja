@@ -40,6 +40,17 @@ char wczytajZnak()
     return znak;
 }
 
+string wczytajLinie()
+{
+    string wejscie ="";
+
+    cin.sync();
+    getline(cin, wejscie);
+    return wejscie;
+}
+
+
+
 
 using namespace std;
 
