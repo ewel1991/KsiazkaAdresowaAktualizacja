@@ -7,6 +7,9 @@
 #include <vector>
 #include <cstdlib>
 
+using namespace std;
+
+
 struct Uzytkownik
 {
     int id;
@@ -368,9 +371,6 @@ int dodajAdresata (vector <Adresat> &adresaci, int numerKolejnegoId, int idZalog
     return numerKolejnegoId;
 }
 
-
-
-using namespace std;
 
 int main()
 {
