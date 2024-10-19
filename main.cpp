@@ -49,6 +49,26 @@ string wczytajLinie()
     return wejscie;
 }
 
+int wczytajLiczbeCalkowita()
+{
+    string wejscie;
+    int liczba;
+
+    cin.sync();
+    while(true)
+    {
+        getline(cin, wejscie);
+        stringstream myStream(wejscie);
+
+        if (myStream >> liczba)
+        {
+            break;
+        }
+        cout << "To nie jest liczba. Wpisz ponownie." << endl;
+    }
+    return liczba;
+}
+
 
 
 
