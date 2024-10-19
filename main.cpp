@@ -305,6 +305,68 @@ int wczytajAdresatowZPliku (vector <Adresat> &adresaci, int idZalogowanegoUzytko
     return ostatniNumerId = adresat.id;
 }
 
+void dodajAdresataDoPliku (Adresat adresat)
+{
+    fstream plik;
+    plik.open("KsiazkaAdresowa.txt", ios::out | ios::app);
+
+    if (plik.good() == true)
+    {
+        plik << adresat.id << "|";
+        plik << adresat.idUzytkownika << "|";
+        plik << adresat.imie << "|";
+        plik << adresat.nazwisko << "|";
+        plik << adresat.numerTelefonu << "|";
+        plik << adresat.email << "|";
+        plik << adresat.adres << "|" <<endl;
+    }
+    else
+    {
+        cout << "Nie udalo sie otworzyc pliku i zapisac do niego danych." << endl;
+        system("pause");
+    }
+    plik.close();
+}
+
+
+
+int dodajAdresata (vector <Adresat> &adresaci, int numerKolejnegoId, int idZalogowanegoUzytkownika)
+{
+    Adresat adresat;
+    adresat.id = numerKolejnegoId + 1;
+    adresat.idUzytkownika = idZalogowanegoUzytkownika;
+
+    cout << "Wpisujesz adresatow dla uzytkownika o id:";
+    cout << adresat.idUzytkownika << endl;
+
+    cout <<"Podaj imie: ";
+    adresat.imie = wczytajLinie();
+
+    cout <<"Podaj nazwisko: ";
+    adresat.nazwisko = wczytajLinie();
+
+    cout <<"Podaj numer telefonu: ";
+    adresat.numerTelefonu = wczytajLinie();
+
+    cout <<"Podaj email: ";
+    adresat.email = wczytajLinie();
+
+    cout <<"Podaj adres: ";
+    adresat.adres = wczytajLinie();
+
+    cout << endl;
+    cout << "Osoba zostala dodana" << endl;
+
+    numerKolejnegoId++;
+
+    adresaci.push_back(adresat);
+
+    system("pause");
+
+    dodajAdresataDoPliku(adresat);
+
+    return numerKolejnegoId;
+}
 
 
 
@@ -347,7 +409,7 @@ int main()
             }
             else if (wybor == '9')
             {
-             exit(0);
+                exit(0);
             }
         }
         else
@@ -373,7 +435,8 @@ int main()
             cin >> wybor;
             if (wybor == '1')
             {
-
+                numerKolejnegoId= dodajAdresata(adresaci, numerKolejnegoId, idZalogowanegoUzytkownika);
+                adresaci.clear();
             }
             else if (wybor == '2')
             {
