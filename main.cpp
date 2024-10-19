@@ -576,7 +576,8 @@ int main()
             }
             else if (wybor == '8')
             {
-
+                adresaci.clear();
+                idZalogowanegoUzytkownika = 0;
             }
         }
 
