@@ -371,6 +371,101 @@ int dodajAdresata (vector <Adresat> &adresaci, int numerKolejnegoId, int idZalog
     return numerKolejnegoId;
 }
 
+void usunAdresataZPliku (int idDoUsuniecia)
+{
+
+    string linia = "", wyraz = "";
+    int  nrKreski = 0, aktualneId;
+
+
+    ifstream plik ("KsiazkaAdresowa.txt");
+    ofstream plikTymczasowy ("AdresaciTymczasowi.txt");
+
+    if (plik.good() == true && plikTymczasowy.good() == true)
+    {
+
+        while (getline(plik, linia))
+        {
+            for (int i = 0; i < linia.length(); i++)
+            {
+                if (linia[i] != '|')
+                {
+                    wyraz += linia [i];
+                }
+                else
+                {
+                    nrKreski ++;
+
+                    switch (nrKreski)
+                    {
+                    case 1:
+                        aktualneId = stoi(wyraz);
+                        break;
+
+                    case 7:
+                        if (aktualneId != idDoUsuniecia)
+                        {
+                            plikTymczasowy << linia << endl;
+                        }
+                        wyraz = "";
+                        nrKreski = 0;
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    plik.close();
+    plikTymczasowy.close();
+
+    remove("KsiazkaAdresowa.txt");
+    rename("AdresaciTymczasowi.txt", "KsiazkaAdresowa.txt");
+
+}
+
+
+
+
+void usunAdresata (vector <Adresat> &adresaci)
+{
+    Adresat adresat;
+    char idDoUsuniecia, potwierdzenieWyboru;
+
+
+    cout << "Podaj id osoby, ktora chcesz usunac: ";
+    idDoUsuniecia = wczytajLiczbeCalkowita();
+    cout << endl;
+
+    cout << "Potwierdz usuniecie danego adresata, wciskajac klawisz 't': ";
+    potwierdzenieWyboru = wczytajZnak();
+    cout << endl;
+
+    if (potwierdzenieWyboru == 't')
+    {
+        for (vector <Adresat> :: iterator itr = adresaci.begin(); itr!= adresaci.end(); itr++)
+        {
+            if (itr -> id == idDoUsuniecia)
+            {
+                adresaci.erase(itr);
+                if (itr == adresaci.end())
+                {
+                    break;
+                }
+            }
+        }
+
+    }
+    else
+    {
+        cout << "Nieprawidlowy klawisz. Adresat nie zostal usuniety" << endl;
+    }
+
+    usunAdresataZPliku (idDoUsuniecia);
+    system("pause");
+}
+
+
 
 int main()
 {
@@ -452,7 +547,8 @@ int main()
             }
             else if (wybor == '5')
             {
-
+                usunAdresata (adresaci);
+                adresaci.clear();
             }
             else if (wybor == '6')
             {
