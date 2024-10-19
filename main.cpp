@@ -371,6 +371,143 @@ int dodajAdresata (vector <Adresat> &adresaci, int numerKolejnegoId, int idZalog
     return numerKolejnegoId;
 }
 
+void zmienAdresataWPliku (int idDoZmiany, string liniaDoZmiany)
+{
+
+    string linia = "", wyraz = "";
+    int  nrKreski = 0, aktualneId;
+
+
+    ifstream plik ("KsiazkaAdresowa.txt");
+    ofstream plikTymczasowy ("AdresaciTymczasowi.txt");
+
+    if (plik.good() == true && plikTymczasowy.good() == true)
+    {
+
+        while (getline(plik, linia))
+        {
+            for (int i = 0; i < linia.length(); i++)
+            {
+                if (linia[i] != '|')
+                {
+                    wyraz += linia [i];
+                }
+                else
+                {
+                    nrKreski ++;
+
+                    switch (nrKreski)
+                    {
+                    case 1:
+                        aktualneId = stoi(wyraz);
+                        break;
+
+                    case 7:
+                        if (aktualneId != idDoZmiany)
+                        {
+                            plikTymczasowy << linia << endl;
+                        }
+                        else if (aktualneId == idDoZmiany)
+                        {
+                            plikTymczasowy << liniaDoZmiany << endl;
+                        }
+                        wyraz = "";
+                        nrKreski = 0;
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    plik.close();
+    plikTymczasowy.close();
+
+    remove("KsiazkaAdresowa.txt");
+    rename("AdresaciTymczasowi.txt", "KsiazkaAdresowa.txt");
+
+}
+
+
+
+void zmienDaneAdresata (vector <Adresat> &adresaci, int idZalogowanegoUzytkownika)
+{
+    Adresat adresat;
+    char wyborOpcji;
+    char wybor;
+    string liniaDoZmiany ="";
+
+    cout << "Wpisz id adresata, ktorego dane chcesz zmienic: ";
+    wybor = wczytajLiczbeCalkowita();
+    cout << endl;
+
+
+    cout << ">>> OPCJE DO ZMIANY <<<" << endl;
+    cout << "1. Imie" << endl;
+    cout << "2. Nazwisko" << endl;
+    cout << "3. Numer telefonu" << endl;
+    cout << "4. Email" << endl;
+    cout << "5. Adres" << endl;
+    cout << "6. Powrot do menu" << endl << endl;
+
+    cout << "Wybierz, ktora dana chcesz zmienic: ";
+
+    wyborOpcji = wczytajZnak();
+    cout << endl;
+
+    for (vector <Adresat> :: iterator itr = adresaci.begin(); itr!= adresaci.end(); itr++)
+    {
+        if ((itr -> id == wybor) && (itr -> idUzytkownika == idZalogowanegoUzytkownika))
+        {
+            switch (wyborOpcji)
+            {
+            case '1':
+                cout << "Podaj imie do zmiany: ";
+                itr -> imie = wczytajLinie();
+                cout << endl;
+                cout << "Dane adresata zostaly zmienione" << endl;
+                break;
+            case '2':
+                cout << "Podaj nazwisko do zmiany: ";
+                itr -> nazwisko = wczytajLinie();
+                cout << endl;
+                cout << "Dane adresata zostaly zmienione" << endl;
+                break;
+            case '3':
+                cout << "Podaj numer telefonu do zmiany: ";
+                itr -> numerTelefonu = wczytajLinie();
+                cout << endl;
+                cout << "Dane adresata zostaly zmienione" << endl;
+                break;
+            case '4':
+                cout << "Podaj email do zmiany: ";
+                itr -> email = wczytajLinie();
+                cout << endl;
+                cout << "Dane adresata zostaly zmienione" << endl;
+                break;
+            case '5':
+                cout << "Podaj adres do zmiany: ";
+                itr -> adres = wczytajLinie();
+                cout << endl;
+                cout << "Dane adresata zostaly zmienione" << endl;
+                break;
+            case '6':
+                break;
+
+            }
+        }
+
+    }
+
+    liniaDoZmiany = zapiszLinieDoZmiany(adresaci, idZalogowanegoUzytkownika, wybor);
+    zmienAdresataWPliku (wybor, liniaDoZmiany);
+
+
+    system("pause");
+
+}
+
+
 
 int main()
 {
@@ -456,7 +593,8 @@ int main()
             }
             else if (wybor == '6')
             {
-
+                zmienDaneAdresata (adresaci, idZalogowanegoUzytkownika);
+                adresaci.clear();
             }
             else if (wybor == '7')
             {
