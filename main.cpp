@@ -371,6 +371,37 @@ int dodajAdresata (vector <Adresat> &adresaci, int numerKolejnegoId, int idZalog
     return numerKolejnegoId;
 }
 
+string zapiszLinieDoZmiany (vector <Adresat> &adresaci, int idZalogowanegoUzytkownika, int wybor)
+{
+    string liniaDoZmiany = "";
+
+    for (Adresat adresat: adresaci)
+    {
+        if ((adresat.id == wybor) && (adresat.idUzytkownika == idZalogowanegoUzytkownika))
+        {
+            liniaDoZmiany += zamienIntNaString(adresat.id) + "|";
+            liniaDoZmiany += zamienIntNaString(adresat.idUzytkownika) + "|";
+            liniaDoZmiany += adresat.imie + "|";
+            liniaDoZmiany += adresat.nazwisko + "|";
+            liniaDoZmiany += adresat.numerTelefonu + "|";
+            liniaDoZmiany += adresat.email + "|";
+            liniaDoZmiany += adresat.adres + "|";
+
+        }
+
+    }gi
+
+    return liniaDoZmiany;
+
+}
+
+
+
+
+
+
+
+
 void zmienAdresataWPliku (int idDoZmiany, string liniaDoZmiany)
 {
 
