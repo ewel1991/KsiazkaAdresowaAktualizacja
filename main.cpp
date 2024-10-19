@@ -481,6 +481,29 @@ void wyswietlWszystkichAdresatow(vector <Adresat> &adresaci)
     system("pause");
 }
 
+
+void zmianaHasla( vector <Uzytkownik> &uzytkownicy, int idZalogowanegoUzytkownika)
+{
+    Uzytkownik uzytkownik;
+    string haslo = "";
+
+    for (vector <Uzytkownik> :: iterator itr = uzytkownicy.begin(); itr!= uzytkownicy.end(); itr++)
+    {
+        if (itr -> id == idZalogowanegoUzytkownika)
+
+        {
+
+
+            cout << "Podaj nowe haslo: ";
+            itr -> haslo = wczytajLinie();
+            cout << "Haslo zostalo zmienione" << endl;
+
+        }
+    }
+    nadpiszPlikUzytkownik(uzytkownicy);
+}
+
+
 int main()
 {
     vector <Adresat> adresaci;
@@ -572,7 +595,7 @@ int main()
             }
             else if (wybor == '7')
             {
-
+                zmianaHasla(uzytkownicy, idZalogowanegoUzytkownika);
             }
             else if (wybor == '8')
             {
