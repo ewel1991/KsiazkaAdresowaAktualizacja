@@ -459,7 +459,27 @@ void wyszukajPoNazwisku(vector <Adresat> &adresaci)
     system("pause");
 }
 
+void wyswietlWszystkichAdresatow(vector <Adresat> &adresaci)
+{
+    Adresat adresat;
 
+    cout << endl;
+    for (Adresat adresat : adresaci)
+    {
+        cout << setw(25)<< left <<"Id: "              << adresat.id<< endl;
+        cout << setw(25)<< left <<"Imie: "            << adresat.imie<< endl;
+        cout << setw(25)<< left <<"Nazwisko: "        << adresat.nazwisko << endl;
+        cout << setw(25)<< left <<"Numer telefonu: "  << adresat.numerTelefonu<< endl;
+        cout << setw(25)<< left <<"Email:"            << adresat.email<< endl;
+        cout << setw(25)<< left <<"Adres:"            << adresat.adres<< endl << endl;
+
+        if (adresaci.size() == 0)
+        {
+            cout << "Plik nie zostal jeszcze stworzony" << endl << endl;
+        }
+    }
+    system("pause");
+}
 
 int main()
 {
@@ -534,12 +554,13 @@ int main()
             }
             else if (wybor == '3')
             {
-            wyszukajPoNazwisku(adresaci);
-            adresaci.clear();
+                wyszukajPoNazwisku(adresaci);
+                adresaci.clear();
             }
             else if (wybor == '4')
             {
-
+                wyswietlWszystkichAdresatow(adresaci);
+                adresaci.clear();
             }
             else if (wybor == '5')
             {
