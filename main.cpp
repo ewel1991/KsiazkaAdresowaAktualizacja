@@ -371,6 +371,49 @@ int dodajAdresata (vector <Adresat> &adresaci, int numerKolejnegoId, int idZalog
     return numerKolejnegoId;
 }
 
+void wyszukajPoImieniu(vector <Adresat> &adresaci)
+{
+    Adresat adresat;
+    string poszukiwaneImie = "";
+    int liczbaTakichSamychImion = 0;
+
+    cout << "Podaj imie, ktore chcesz wyszukac: ";
+
+    poszukiwaneImie = wczytajLinie();
+
+    cout << endl;
+
+    if (adresaci.size()== 0)
+    {
+        cout << "Plik nie zostal jeszcze stworzony" << endl << endl;
+    }
+    else
+    {
+        for (Adresat adresat : adresaci)
+        {
+            if (adresat.imie == poszukiwaneImie)
+            {
+                cout << setw(25)<< left <<"Id: "             << adresat.id<< endl;
+                cout << setw(25)<< left <<"Imie: "           << adresat.imie<< endl;
+                cout << setw(25)<< left <<"Nazwisko: "       << adresat.nazwisko << endl;
+                cout << setw(25)<< left <<"Numer telefonu: " << adresat.numerTelefonu<< endl;
+                cout << setw(25)<< left <<"Email:"           << adresat.email<< endl;
+                cout << setw(25)<< left <<"Adres:"           << adresat.adres<< endl << endl;
+                liczbaTakichSamychImion++;
+            }
+
+
+        }
+        if (liczbaTakichSamychImion == 0)
+        {
+            cout << "Na liscie nie ma osoba o takim imieniu" << endl << endl;
+        }
+
+
+    }
+
+    system("pause");
+}
 
 int main()
 {
@@ -440,7 +483,8 @@ int main()
             }
             else if (wybor == '2')
             {
-
+                wyszukajPoImieniu(adresaci);
+                adresaci.clear();
             }
             else if (wybor == '3')
             {
