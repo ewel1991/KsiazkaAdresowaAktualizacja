@@ -77,7 +77,59 @@ string zamienIntNaString (unsigned long long int liczba)
     return str;
 }
 
+int wczytajOsobyZPlikuUzytkownicy (vector <Uzytkownik> &uzytkownicy)
+{
+    Uzytkownik uzytkownik;
+    string linia = "", wyraz = "";
+    int nrKreski = 0, ostatniNumerUzytkownika = 0;
 
+    fstream plik;
+    plik.open("Uzytkownicy.txt", ios::in);
+
+    if (plik.good() == false)
+    {
+        return 0;
+    }
+    while (getline(plik, linia))
+    {
+
+        for (int i = 0; i < linia.length(); i++)
+        {
+
+            if (linia[i] != '|')
+            {
+                wyraz += linia [i];
+            }
+
+            else
+            {
+                nrKreski ++;
+
+
+                switch (nrKreski)
+                {
+                case 1:
+                    uzytkownik.id = stoi(wyraz);
+                    wyraz = "";
+                    break;
+                case 2:
+                    uzytkownik.nazwa = wyraz;
+                    wyraz = "";
+                    break;
+                case 3:
+                    uzytkownik.haslo = wyraz;
+                    wyraz = "";
+                    uzytkownicy.push_back(uzytkownik);
+                    nrKreski = 0;
+                    break;
+                }
+            }
+        }
+    }
+    plik.close();
+
+    return ostatniNumerUzytkownika = uzytkownik.id;
+}
 
 
 using namespace std;
@@ -92,7 +144,7 @@ int main()
     int numerKolejnegoId = 0, iloscUzytkownikow = 0, idDoZmiany = 0, idZalogowanegoUzytkownika = 0;
     string liniaDoZmiany ="";
 
-
+    iloscUzytkownikow = wczytajOsobyZPlikuUzytkownicy(uzytkownicy);
 
 
     return 0;
