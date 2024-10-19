@@ -208,7 +208,7 @@ int main()
 
     iloscUzytkownikow = wczytajOsobyZPlikuUzytkownicy(uzytkownicy);
 
- while(1)
+    while(1)
     {
         if(idZalogowanegoUzytkownika == 0)
         {
@@ -225,7 +225,7 @@ int main()
 
             if (wybor == '1')
             {
-
+                iloscUzytkownikow = rejestracja(uzytkownicy, iloscUzytkownikow);
             }
             else if (wybor == '2')
             {
@@ -259,7 +259,7 @@ int main()
             cin >> wybor;
             if (wybor == '1')
             {
-                iloscUzytkownikow = rejestracja(uzytkownicy, iloscUzytkownikow);
+
             }
             else if (wybor == '2')
             {
@@ -296,5 +296,5 @@ int main()
 
 }
 
-    return 0;
+return 0;
 }
