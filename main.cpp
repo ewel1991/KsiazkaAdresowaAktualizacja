@@ -875,7 +875,8 @@ int main()
             }
             else if (wybor == '6')
             {
-
+                zmienDaneAdresata (adresaci, idZalogowanegoUzytkownika);
+                adresaci.clear();
             }
             else if (wybor == '7')
             {
@@ -891,7 +892,7 @@ int main()
 
 
 
-}
+    }
 
-return 0;
+    return 0;
 }
