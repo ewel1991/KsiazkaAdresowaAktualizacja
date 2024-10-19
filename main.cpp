@@ -641,6 +641,7 @@ void wyswietlWszystkichAdresatow(vector <Adresat> &adresaci)
             cout << "Plik nie zostal jeszcze stworzony" << endl << endl;
         }
     }
+    system("pause");
 }
 
 void usunAdresataZPliku (int idDoUsuniecia)
