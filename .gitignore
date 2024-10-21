@@ -1,0 +1,9 @@
+KsiazkaAdresowa.txt
+Uzytkownicy.txt
+bin/
+obj/
+*.cbp
+*.layout
+*.txt
+*.depend
+LICENSE
